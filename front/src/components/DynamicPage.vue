@@ -1,8 +1,8 @@
 <template>
-  <v-app>
-    <h1>PAGE#######</h1>
-    <v-btn @click="send">OK</v-btn>
-  </v-app>
+    <div>
+        dpage.vue
+        <v-btn @click="send">OK</v-btn>
+    </div>
 </template>
 
 <script>
@@ -32,7 +32,8 @@ const client = new RSocketClient({
 
 
 export default {
-  name: 'Page',
+  name: 'dynamic-page',
+  props: ['page-id'],
   created() {
     client.connect().subscribe({
     onComplete: socket => {
@@ -70,19 +71,21 @@ export default {
   },
   data: () => ({
     client: null,
-    socket: null
+    socket: null,
+    component: null,
   }),
   methods:{
     handle(data){
       console.dir(data);
-      console.log(JSON.parse(Base64.decode(data.body)));
+      
+      let c = JSON.parse(Base64.decode(data.body));
+      console.log(c);
+      this.component = c;
     },
     send(){
       if(this.socket!==null){
         this.socket.fireAndForget({
-            data: {
-              a:'test' , b:'한글'
-            },
+            data: {test:'testdata',lang:'한글'},
             metadata: String.fromCharCode('data.set'.length) + 'data.set',
           });
       }

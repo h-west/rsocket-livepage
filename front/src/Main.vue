@@ -1,11 +1,11 @@
 <template>
-  <h1>MAIN</h1>
+  <router-view></router-view>
 </template>
 
 <script>
 
 export default {
-  name: 'Index',
+  name: 'home',
   data: () => ({
     //
   }),

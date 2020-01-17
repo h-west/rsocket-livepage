@@ -38,6 +38,20 @@ public class TestSocketController {
     @Autowired
     Mono<RSocketRequester> requester;
 
+    @MessageMapping("data.page")
+    public Flux<Delivery> getPageData(Map<String,Object> data) {
+        return getQueue((String)data.get("page")); 
+    }
+
+    @MessageMapping("data.page.set")
+    public Mono<Void> setPageData(Map<String,Object> data) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        OutboundMessage msg = new OutboundMessage("windmill","page."+(String)data.get("page")+".", mapper.writeValueAsBytes(data.get("message")));
+        System.out.println(data);
+        sender.send(Mono.just(msg)).subscribe(System.out::println);
+        return Mono.empty();
+    }
+
     @MessageMapping("data.get")
     public Flux<Delivery> getDatas(Map<String,Object> data) {
         return getQueue((String)data.get("page")).mergeWith(gate); 
