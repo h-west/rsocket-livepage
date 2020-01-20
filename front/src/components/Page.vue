@@ -40,6 +40,8 @@ console.log('@')
      // this.component = () => import('../templates/Live1.vue');
 
     });
+
+    //Vue.rsPageSend('initPage');
     
   },
   data: () => ({

@@ -22,15 +22,11 @@ public class WebConfig implements WebFluxConfigurer{
 
     @Value("classpath:/static/index.html") 
 	Resource index;
-
-	@Value("classpath:/static/page.html") 
-	Resource page;
     
     @Bean
 	public RouterFunction<ServerResponse> staticPages() {
         return RouterFunctions
-            .route(RequestPredicates.GET("/"), req -> ServerResponse.ok().contentType(MediaType.TEXT_HTML).bodyValue(index))
-            .andRoute(RequestPredicates.GET("/page/**"), req -> ServerResponse.ok().contentType(MediaType.TEXT_HTML).bodyValue(page));
+            .route(RequestPredicates.GET("/"), req -> ServerResponse.ok().contentType(MediaType.TEXT_HTML).bodyValue(index));
 	}
 	
 	@Override

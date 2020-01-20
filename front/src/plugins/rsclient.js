@@ -31,14 +31,13 @@ export default {
         Vue.rsPageConnect = function(pageId,handle){
           if(savedPageId) return
           savedPageId = pageId;
+          let messageId = 'page.'+savedPageId;
           client.connect().subscribe({
             onComplete: socket => {
               connectedSocket = socket;
               socket.requestStream({
-                data: {
-                  page: pageId
-                },
-                metadata: String.fromCharCode('data.page'.length) + 'data.page',
+                data: {},
+                metadata: String.fromCharCode(messageId.length) + messageId,
               }).subscribe({
                 onComplete: () => console.log('complete'),
                 onError: error => {
@@ -66,9 +65,10 @@ export default {
 
         Vue.rsPageSend = function(message){
           if(!savedPageId) return
+          let messageId = 'page.'+savedPageId+'.send';
           connectedSocket.fireAndForget({
-            data: {page:savedPageId,message:message},
-            metadata: String.fromCharCode('data.page.set'.length) + 'data.page.set',
+            data: message,
+            metadata: String.fromCharCode(messageId.length) + messageId,
           });
         }
 
