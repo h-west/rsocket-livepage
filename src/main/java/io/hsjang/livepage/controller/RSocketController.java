@@ -7,7 +7,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
-import io.hsjang.livepage.document.Data;
+import io.hsjang.livepage.pojo.Cmd;
 import io.hsjang.livepage.service.MGService;
 import io.hsjang.livepage.service.MQService;
 import reactor.core.publisher.Flux;
@@ -23,8 +23,8 @@ public class RSocketController {
     MGService mgService;
 
     @MessageMapping("page.{page}")
-    public Flux<Data> getPageData(@DestinationVariable String page) {
-        return mqService.getPageQueue(page).mergeWith(mgService.getPageInfo(page)); 
+    public Flux<Cmd> getPageData(@DestinationVariable String page) {
+        return mgService.getPageInfo(page).map(Cmd::of).mergeWith(mqService.getPageQueue(page)); 
     }
 
     @MessageMapping("page.{page}.send")

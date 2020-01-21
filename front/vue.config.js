@@ -3,6 +3,7 @@ module.exports = {
   devServer: {
     proxy: 'http://localhost:8080'
   },
+  runtimeCompiler: true
   // pages: {
   //   index: {
   //     entry: 'src/index.js',

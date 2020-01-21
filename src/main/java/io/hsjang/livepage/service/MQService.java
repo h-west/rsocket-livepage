@@ -17,7 +17,7 @@ import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.stereotype.Service;
 
 import io.hsjang.livepage.common.Constants;
-import io.hsjang.livepage.document.Data;
+import io.hsjang.livepage.pojo.Cmd;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.rabbitmq.OutboundMessage;
@@ -49,7 +49,7 @@ public class MQService implements InitializingBean{
     @Autowired 
     ObjectMapper mapper;
 
-    Map<String, Flux<Data>> pool = new HashMap<String, Flux<Data>>();
+    Map<String, Flux<Cmd>> pool = new HashMap<String, Flux<Cmd>>();
 
     /**
      * gate queue 생성 및 바인드
@@ -97,13 +97,13 @@ public class MQService implements InitializingBean{
      * @param page
      * @return
      */ 
-    public Flux<Data> getPageQueue(String page){
+    public Flux<Cmd> getPageQueue(String page){
         if(!pool.containsKey(page)){
             String qName = Constants.getPageQueue(page);
             Queue q = new Queue(qName, false, false, true);
             amqpAdmin.declareQueue(q);
             amqpAdmin.declareBinding(BindingBuilder.bind(q).to(exchange).with(Constants.getPageRoutingKey(page)+"*"));
-            Flux<Data> pageFlux = receiver.consumeNoAck(qName).publish().autoConnect().map(Data::of);
+            Flux<Cmd> pageFlux = receiver.consumeNoAck(qName).publish().autoConnect().map(Cmd::of);
             pool.put(page, pageFlux);
         }
         return pool.get(page);

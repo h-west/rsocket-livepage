@@ -42,7 +42,7 @@ export default {
                 onComplete: () => console.log('complete'),
                 onError: error => {
                   console.log(error);
-                  addErrorMessage("Connection has been closed due to ", error);
+                  //addErrorMessage("Connection has been closed due to ", error);
                 },
                 onNext: payload => {
                   //console.log(payload.data);
@@ -54,8 +54,8 @@ export default {
               });
             },
             onError: error => {
-              console.log(error);
-              addErrorMessage("Connection has been refused due to ", error);
+              console.log("onError >>" +error);
+              //addErrorMessage("Connection has been refused due to ", error);
             },
             onSubscribe: cancel => {
               /* call cancel() to abort */

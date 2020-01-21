@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.stereotype.Service;
 
-import io.hsjang.livepage.document.Data;
+import io.hsjang.livepage.document.Page;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -15,11 +15,11 @@ public class MGService {
     @Autowired
     ReactiveMongoTemplate template;
 
-    public Mono<Data> getPageInfo(String pageId){
-        return template.find(new BasicQuery("{\"id\":\""+pageId+"\"}"), Data.class, "page").single();
+    public Mono<Page> getPageInfo(String pageId){
+        return template.findOne(new BasicQuery("{\"name\":\""+pageId+"\"}"), Page.class);
     }
     
-    public Mono<Data> savePageInfo(Data page){
+    public Mono<Page> savePageInfo(Page page){
         return template.save(page,"page");
     }
 

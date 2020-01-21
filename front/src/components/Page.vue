@@ -1,10 +1,10 @@
 <template>
   <v-app>
     <v-btn @click="send">OK</v-btn>
-    <ul v-for="message in messages" :key="message">
+    <!-- <ul v-for="message in messages" :key="message">
         <li>{{message}}</li>
-    </ul>
-    <component :is="template" v-if="template" v-bind="templateData"></component>
+    </ul> -->
+    <component :is="component" v-if="component" v-bind="template"></component>
   </v-app>  
 </template>
 
@@ -16,38 +16,23 @@ export default {
   name: 'dynamic-page',
   props: ['page-id'],
   created() {
-    Vue.rsPageConnect(this.pageId,(data)=>{
-      console.log(data);
-      //this.messages.push(data);
-
-      // data = {
-      //   type:'Live1',
-      //   videoId:'Fht6hmUGRfU'
-      // }
-
-      let template = {
-        type:'Free1',
-        items:[
-          {type:'YoutubePlayer',videoId:'Fht6hmUGRfU'},
-          {type:'YoutubePlayer',videoId:'mLE7zCi-UTg'}
-        ]
+    Vue.rsPageConnect(this.pageId,(result)=>{
+      console.log(result)
+      switch(result.cmd){
+        case 'page':
+          this.template = result.data;
+          this.component = () => import(`../templates/${this.template.type}.vue`);
+          break;
+        case 'mq':
+          break;
+        default:
+          break;
       }
-console.log('@')
-      this.template = () => import(`../templates/${template.type}.vue`);
-      this.templateData = template;
-     // let c = JSON.parse(Base64.decode(data.body));
-     // console.log(c);
-     // this.component = () => import('../templates/Live1.vue');
-
     });
-
-    //Vue.rsPageSend('initPage');
-    
   },
   data: () => ({
-    template: null,
-    templateData: null,
-    messages: []
+    component: null,
+    template: null
   }),
   methods:{
     send(){

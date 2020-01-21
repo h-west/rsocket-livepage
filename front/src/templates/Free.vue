@@ -5,14 +5,13 @@
 </template>
 
 <script>
-import YP from './items/YoutubePlayer.vue'
 export default {
-    name: 'live1',
+    name: 'free',
     props: ['items'],
     computed: {
         cItems() {
             return this.items.map(item => {
-                item.component= () => import(`./items/${item.type}.vue`)
+                item.component= () => import(`./items/${item.name}.vue`)
                 return item;
             })
         }
