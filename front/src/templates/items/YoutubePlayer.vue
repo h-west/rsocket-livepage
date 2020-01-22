@@ -24,6 +24,19 @@ export default {
         .then(function () {
             console.log('Starting to play player1. It will take some time to buffer video before it starts playing.');
         });
+    },
+    methods: {
+        handle(result) {  // mixin??
+            //console.log(result);
+        }
     }
 }
+
+
+/*  item object
+{
+    "type" : "YoutubePlayer",
+    "videoId" : "o_UUYwymh30"
+}
+ */
 </script>

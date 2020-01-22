@@ -4,7 +4,7 @@
     <!-- <ul v-for="message in messages" :key="message">
         <li>{{message}}</li>
     </ul> -->
-    <component :is="component" v-if="component" v-bind="template"></component>
+    <component :is="component" v-if="component" v-bind="template" ref="template"></component>
   </v-app>  
 </template>
 
@@ -17,13 +17,14 @@ export default {
   props: ['page-id'],
   created() {
     Vue.rsPageConnect(this.pageId,(result)=>{
-      console.log(result)
+      //console.log(result)
       switch(result.cmd){
         case 'page':
           this.template = result.data;
           this.component = () => import(`../templates/${this.template.type}.vue`);
           break;
-        case 'mq':
+        case 'delivery':
+          this.$refs.template.handle(result);
           break;
         default:
           break;

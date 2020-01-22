@@ -5,37 +5,30 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+Vue.use(Vuetify);
 
 export default {
     name: 'vue-component',
     props: ['component-str'],
-    // created(vm) {
-    //     vm.$children.push(Function('return ' + this.componentStr).call(this));
-    // }
-    data(){
-        return {
-            component: null
-        }
-    },
     computed: {
-        componentObj(){
+        component(){
             return Function('return ' + this.componentStr).call(this);
         }
     },
-    mounted(){
-        this.component = this.componentObj;
+    methods: {
+        handle(result) {  // mixin??
+           // console.log(result);
+        }
     }
-    // mounted(){
-    //     let player = YouTubePlayer(this.videoId, {
-    //         videoId: this.videoId
-    //     });
-    //     player
-    //     // Play video is a Promise.
-    //     // 'playVideo' is queued and will execute as soon as player is ready.
-    //     .playVideo()
-    //     .then(function () {
-    //         console.log('Starting to play player1. It will take some time to buffer video before it starts playing.');
-    //     });
-    // }
 }
+
+
+/*  item object
+{
+    "type" : "VueComponent",
+    "componentStr" : "{name:'aaaa',template:`<div><div v-if=\"show\">SHOW</div>\n<v-btn @click=\"ok\">show Message</v-btn></div>`,data:function(){return {show:false};},methods:{ok(){this.show=true}}}"
+}
+ */
 </script>

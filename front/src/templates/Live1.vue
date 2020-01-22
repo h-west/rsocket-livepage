@@ -13,6 +13,11 @@ export default {
     props: ['video-id'],
     components:{
         'youtube-player': YouTubePlayer
+    },
+    methods: {
+        handle(result) {  // mixin??
+            console.log(result);
+        }
     }
 }
 </script>
