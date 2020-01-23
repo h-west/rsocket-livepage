@@ -1,9 +1,6 @@
 <template>
   <v-app>
     <v-btn @click="send">OK</v-btn>
-    <!-- <ul v-for="message in messages" :key="message">
-        <li>{{message}}</li>
-    </ul> -->
     <component :is="component" v-if="component" v-bind="template" ref="template"></component>
   </v-app>  
 </template>
@@ -22,9 +19,15 @@ export default {
         case 'page':
           this.template = result.data;
           this.component = () => import(`../templates/${this.template.type}.vue`);
+          this.pageInit = true;
           break;
         case 'delivery':
-          this.$refs.template.handle(result);
+          if(this.pageInit){
+            const msg = JSON.parse(Base64.decode(result.data));
+            Function("this.template."+msg.exec).call(this);
+          }else{
+            //다시받는처리
+          }
           break;
         default:
           break;
@@ -33,11 +36,15 @@ export default {
   },
   data: () => ({
     component: null,
-    template: null
+    template: null,
+    pageInit: false
   }),
   methods:{
     send(){
-      Vue.rsPageSend({test:'test'})
+      Vue.rsPageSend({exec:"items[0].videoId='Az41nxCqMus'"});
+      Vue.rsPageSend({exec:"items[2].url='https://monthly.chosun.com/upload/1612/1612_332.jpg'"});
+      Vue.rsPageSend({exec:"items[3].chats.push('안녕하세요')"});
+      Vue.rsPageSend({exec:"items[4].chart.chartData.datasets[0].data[0]+=1"});
     }
   }
 };

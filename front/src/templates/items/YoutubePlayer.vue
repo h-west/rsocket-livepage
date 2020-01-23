@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div :id='videoId'></div>
+        <div :id='playerDivId'></div>
     </div>
 </template>
 
@@ -8,26 +8,28 @@
 import YouTubePlayer from 'youtube-player';
 
 export default {
-    name: 'youtube-player',
+    name: 'item-youtube-player',
     props: ['video-id'],
-    created(){
-        console.log(this.videoId)
+    mounted() {
+        this.load(this.videoId);
     },
-    mounted(){
-        let player = YouTubePlayer(this.videoId, {
-            videoId: this.videoId
-        });
-        player
-        // Play video is a Promise.
-        // 'playVideo' is queued and will execute as soon as player is ready.
-        .playVideo()
-        .then(function () {
-            console.log('Starting to play player1. It will take some time to buffer video before it starts playing.');
-        });
+    computed: {
+        player() {
+            return YouTubePlayer(this.playerDivId);
+        },
+        playerDivId() {
+            return 'player-yt-'+this._uid;
+        }
+    },
+    watch: {
+        videoId(id) {
+            this.load(id);
+        }
     },
     methods: {
-        handle(result) {  // mixin??
-            //console.log(result);
+        load(id) {
+            this.player.loadVideoById(this.videoId);
+            this.player.playVideo();
         }
     }
 }

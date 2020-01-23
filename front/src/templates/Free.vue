@@ -15,14 +15,6 @@ export default {
                 return item;
             })
         }
-    },
-    methods: {
-        handle(result) {  // mixin??
-            //console.log(result);
-            this.$refs.items.forEach(i=>{
-                i.handle(result);
-            })
-        }
     }
 }
 </script>

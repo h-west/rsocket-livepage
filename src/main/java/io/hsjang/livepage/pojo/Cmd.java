@@ -19,6 +19,6 @@ public class Cmd {
     }
 
     public static Cmd of(Delivery delivery){
-        return new Cmd("delivery", delivery);
+        return new Cmd("delivery", delivery.getBody());
     }
 }

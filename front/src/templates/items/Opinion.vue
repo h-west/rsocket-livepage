@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>{{name}}</div>
+        <div>{{title}}</div>
         <div style="width:40%">
             <component :is='chartComponent' v-if="chartComponent" v-bind="chart" ref="chart"></component>
         </div>
@@ -13,11 +13,19 @@ let randomScalingFactor = function() {
     return Math.round(Math.random() * 100);
 };
 export default {
-    name: 'opinion',
-    props: ['name','chart'],
+    name: 'item-opinion',
+    props: ['title','chart'],
     computed: {
         chartComponent(){
             return this.chart? () => import(`./charts/${this.chart.type}.js`) : null;
+        }
+    },
+    watch: {
+        chart: {
+            deep: true,
+            handler(){
+                this.$refs.chart.update();
+            }
         }
     },
     methods: {
@@ -28,10 +36,6 @@ export default {
 				});
             });
             this.$refs.chart.update();
-        },
-        handle(result) {  // mixin??
-            //console.log(result);
-            this.random();
         }
     }
 }
@@ -39,9 +43,9 @@ export default {
 /*  item object
 {
     "type" : "Opinion",
-    "name" : "opinion name!",
+    "title" : "opinion name!",
     "chart" : {
-        "type" : "Pie",
+        "type" : "pie",
         "chartData" : {
             "datasets" : [ 
                 {
