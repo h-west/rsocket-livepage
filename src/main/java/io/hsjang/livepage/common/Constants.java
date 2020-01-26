@@ -7,12 +7,12 @@ public class Constants {
 
     public static String EX_CHANGE_WHEEL = "amq.topic";
 
-    public static String HOST_NAME = ".hostname";
+    public static String HOST_NAME = "hostname";
     static {
         try{
-            HOST_NAME = "."+InetAddress.getLocalHost().getHostName();
+            HOST_NAME = InetAddress.getLocalHost().getHostName();
         }catch(Exception e){
-            HOST_NAME = "."+UUID.randomUUID();
+            HOST_NAME = "" + UUID.randomUUID();
         }
     }
 
