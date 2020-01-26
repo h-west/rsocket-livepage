@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Constants {
 
-    public static String EX_CHANGE_WHEEL = "windmill";
+    public static String EX_CHANGE_WHEEL = "amq.topic";
 
     public static String HOST_NAME = ".hostname";
     static {

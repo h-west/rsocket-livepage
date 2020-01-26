@@ -10,7 +10,7 @@ export default {
     props: ['items'],
     computed: {
         cItems() {
-            return this.items.map(item => {
+            return this.items.map((item,i) => {
                 item.component= () => import(`./items/${item.type}.vue`)
                 return item;
             })
