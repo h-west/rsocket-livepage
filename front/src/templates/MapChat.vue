@@ -1,6 +1,6 @@
 <template>
     <div class="max-size-screen">
-        <Map :mapOptions="mapOptions"></Map>
+        <Map :mapOptions="mapOptions" ref="map"></Map>
         <v-bottom-navigation
             :value="activeBtn"
             grow
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Map from './navermaps/Map'
+import Map from './items/Map'
 
 export default {
     name: 'HelloWorld',
@@ -39,12 +39,13 @@ export default {
         count: 1,
         map: null,
         mapOptions: {
-          lat: 37,
-          lng: 127,
+          lat: 37.5666103,
+          lng: 126.9783882,
           zoom: 10,
-          zoomControl: true,
-          zoomControlOptions: {position: 'TOP_RIGHT'},
-          mapTypeControl: true,
+          //zoomControl: true,
+          //zoomControlOptions: {position: 'TOP_RIGHT'},
+          //mapTypeControl: true,
+          scaleControl: false,
         },
       }
     },
