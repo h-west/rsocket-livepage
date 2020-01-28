@@ -30,10 +30,10 @@ public class ReactiveMQConfig{
     @Bean
     Mono<Connection> connectionMono() {
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost("localhost");
-        connectionFactory.setPort(5672);
-        connectionFactory.setUsername("guest");
-        connectionFactory.setPassword("guest");
+        // connectionFactory.setHost("54.180.147.13");
+        // connectionFactory.setPort(5672);
+        // connectionFactory.setUsername("guest");
+        // connectionFactory.setPassword("guest");
         return Mono.fromCallable(() -> connectionFactory.newConnection("reactor-rabbit")).cache();
     }
 	
