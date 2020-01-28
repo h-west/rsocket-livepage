@@ -1,15 +1,17 @@
 <template>
   <v-app>
-    <v-btn @click="send">OK</v-btn>
     <component :is="component" v-if="component" v-bind="template" ref="template"></component>
+    <Menu></Menu>
   </v-app>  
 </template>
 
 <script>
 import { Base64 } from 'js-base64';
 import Vue from 'vue';
+import Menu from '../components/Menu.vue'
 
 export default {
+  components: {Menu},
   name: 'dynamic-page',
   props: ['page-id'],
   created() {
@@ -38,14 +40,6 @@ export default {
     component: null,
     template: null,
     pageInit: false
-  }),
-  methods:{
-    send(){
-      Vue.rsPageSend({exec:"items[0].videoId='Az41nxCqMus'"});
-      Vue.rsPageSend({exec:"items[2].url='https://monthly.chosun.com/upload/1612/1612_332.jpg'"});
-      Vue.rsPageSend({exec:"items[3].chats.push('안녕하세요')"});
-      Vue.rsPageSend({exec:"items[4].chart.chartData.datasets[0].data[0]+=1"});
-    }
-  }
+  })
 };
 </script>

@@ -39,7 +39,10 @@ export default {
                 data: {},
                 metadata: String.fromCharCode(messageId.length) + messageId,
               }).subscribe({
-                onComplete: () => console.log('complete'),
+                onComplete: () => {
+                  console.log('complete');
+                  Vue.rsPageConnect(pageId,handle);
+                },
                 onError: error => {
                   console.log(error);
                   //addErrorMessage("Connection has been closed due to ", error);

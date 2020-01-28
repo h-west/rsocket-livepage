@@ -30,7 +30,8 @@ public class RSocketController {
     @MessageMapping("page.{page}.send")
     public Mono<Void> setPageData(@DestinationVariable String page, Map<String,Object> data) throws Exception {
         // for test
-        //System.out.println(page+"::"+data); 
+        // System.out.println(page+"::"+data); 
+        // save DB
         
         return mqService.sendPageQueue(page, data);
     }

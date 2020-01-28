@@ -6,6 +6,8 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +19,7 @@ import reactor.rabbitmq.Sender;
 import reactor.rabbitmq.SenderOptions;
 
 @Configuration
+@EnableConfigurationProperties(RabbitProperties.class)
 public class ReactiveMQConfig{
 
     @Autowired
@@ -28,12 +31,12 @@ public class ReactiveMQConfig{
     }
 
     @Bean
-    Mono<Connection> connectionMono() {
+    Mono<Connection> connectionMono(RabbitProperties properties) {
         ConnectionFactory connectionFactory = new ConnectionFactory();
-        // connectionFactory.setHost("54.180.147.13");
-        // connectionFactory.setPort(5672);
-        // connectionFactory.setUsername("guest");
-        // connectionFactory.setPassword("guest");
+        connectionFactory.setHost(properties.getHost());
+        connectionFactory.setPort(properties.getPort());
+        connectionFactory.setUsername(properties.getUsername());
+        connectionFactory.setPassword(properties.getPassword());
         return Mono.fromCallable(() -> connectionFactory.newConnection("reactor-rabbit")).cache();
     }
 	
