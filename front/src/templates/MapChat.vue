@@ -47,11 +47,18 @@ export default {
         mapOptions: {
           lat: 37.5666103,
           lng: 126.9783882,
-          zoom: 10,
+          zoom: 14,
           //zoomControl: true,
           //zoomControlOptions: {position: 'TOP_RIGHT'},
           //mapTypeControl: true,
           scaleControl: false,
+          pinchZoom: false,
+          scrollWheel: false,
+          disableDoubleClickZoom: true,
+          disableDoubleTapZoom: true,
+          disableTwoFingerTapZoom: true,
+          disableKineticPan: false,
+          minZoom: 10,
         },
       }
     },
@@ -94,8 +101,8 @@ export default {
       },
       send(){
         //   Vue.rsPageSend()
-          
-        this.map.data.addGeoJson({
+        //console.log('1')
+        let f = {
             type: "Feature",
             geometry: {
                 "type": "Point",
@@ -108,8 +115,36 @@ export default {
                 name: "Dinagat Islands"
                 
             }
-          },true);
+          };
 
+          let ii = '<div style="width:150px;text-align:center;padding:10px;">The Letter</b>.</div>';
+          f.info = new window.naver.maps.InfoWindow({content: ii});
+          //f.info.open(this.map,f.geometry.coordinates);
+          
+        //naver.maps.Event.addListener(this.map.data, 'addfeature', e => console.log(e));
+        
+        
+        this.map.data.addListener('addfeature', (e)=> {
+          // console.log('1')
+          //   let m = e.feature.getOverlays()[0];
+          //   m.addListener('icon_changed', ()=>{
+          //     e.feature.getRaw().info.open(this.map,m)
+          //   })
+          setTimeout(()=>{e.feature.getRaw().info.open(this.map,e.feature.getOverlays()[0])},100)
+        });
+
+          this.map.data.addListener('click', (e)=> {
+            //console.log(e);
+            //e.feature.info.close();
+            
+            if(e.feature.getRaw().info.getMap()){
+              e.feature.getRaw().info.close();
+            }else{
+              e.feature.getRaw().info.open(this.map,e.feature.getOverlays()[0]);
+            }
+           // e.feature.setProperty('isColorful', true);
+        });
+        this.map.data.addGeoJson(f,true);
 
         //   var markerOptions = {
         //     position: new naver.maps.LatLng(37.3849483, 127.1229117).destinationPoint(90, 15),
