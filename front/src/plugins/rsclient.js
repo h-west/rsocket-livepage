@@ -66,11 +66,11 @@ export default {
           });
         }
 
-        Vue.rsPageSend = function(message){
+        Vue.rsPageSend = function(cmd,message){
           if(!savedPageId) return
           let messageId = 'page.'+savedPageId+'.send';
           connectedSocket.fireAndForget({
-            data: message,
+            data: {cmd, data: message},
             metadata: String.fromCharCode(messageId.length) + messageId,
           });
         }

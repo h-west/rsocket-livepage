@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <component :is="component" v-if="component" v-bind="template" ref="template"></component>
+    <component :is="component" v-if="component" v-bind="template" :msg="msg" ref="template"></component>
     <Menu></Menu>
   </v-app>  
 </template>
@@ -15,8 +15,17 @@ export default {
   name: 'dynamic-page',
   props: ['page-id'],
   created() {
-    Vue.rsPageConnect(this.pageId,(result)=>{
-      //console.log(result)
+    Vue.rsPageConnect(this.pageId,this.handle);
+  },
+  data: () => ({
+    component: null,
+    template: null,
+    pageInit: false,
+    msg: null,
+  }),
+  methods: {
+    handle(result) {
+      console.log(result)
       switch(result.cmd){
         case 'page':
           this.template = result.data;
@@ -25,21 +34,19 @@ export default {
           break;
         case 'delivery':
           if(this.pageInit){
-            const msg = JSON.parse(Base64.decode(result.data));
-            Function("this.template."+msg.exec).call(this);
+            const delivery = JSON.parse(Base64.decode(result.data));
+            this.handle(delivery);
           }else{
             //다시받는처리
           }
           break;
+        case 'template':
+          Function("this.template."+result.data.exec).call(this);
+          break;
         default:
           break;
       }
-    });
-  },
-  data: () => ({
-    component: null,
-    template: null,
-    pageInit: false
-  })
+    }
+  }
 };
 </script>

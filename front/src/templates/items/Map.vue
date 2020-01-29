@@ -14,7 +14,8 @@
       mapOptions: {
         type: Object
       },
-      initLayers: Array
+      initLayers: Array,
+      features: Array,
     },
     computed: {
         mapStyle() {
@@ -43,6 +44,16 @@
       }
     },
     methods: {
+
+      addGeoJson(features) {
+        this.map.data.addGeoJson(features);
+        return this;
+      },
+      addFeature(feature) {
+        this.map.data.addFeature(feature);
+        return this;
+      },
+
       /* Normal Method */
       /**
        * @param layerName {string}
@@ -352,7 +363,7 @@
           window.$naverMapsCallback = [];
           window.$naverMapsLoaded = true;
           window.$naverMapsObject = this.map;
-          this.$emit('load', this);
+          this.$emit('load', this.map);
         }).catch(console.error);
       }
     },

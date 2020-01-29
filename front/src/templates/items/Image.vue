@@ -40,7 +40,7 @@ export default {
     }),
     methods: {
         changeUrl() {
-            Vue.rsPageSend({exec:"items["+this.$vnode.key+"].url='"+this.formUrl+"'"});
+            Vue.rsPageSend('template',{exec:"items["+this.$vnode.key+"].url='"+this.formUrl+"'"});
             this.dialog=false;
         }
     }

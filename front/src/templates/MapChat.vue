@@ -1,13 +1,13 @@
 <template>
     <div class="max-size-screen">
-        <Map :mapOptions="mapOptions" ref="map"></Map>
+        <Map :mapOptions="mapOptions" @load="onLoad"></Map>
         <v-bottom-navigation
             :value="activeBtn"
             grow
             color="teal"
             class="bottom-over"
         >
-            <v-btn>
+            <v-btn @click.stop.prevent="send">
             <span>Recents</span>
             <v-icon>mdi-history</v-icon>
             </v-btn>
@@ -27,10 +27,16 @@
 
 <script>
 import Map from './items/Map'
+import Vue from 'vue'
 
 export default {
-    name: 'HelloWorld',
     components: {Map},
+    props: ['features','add'],
+    watch: {
+        add(feature) {
+            this.$refs.map.addFeature(feature);
+        }
+    },
     data() {
       return {
         activeBtn: 1,
@@ -55,7 +61,28 @@ export default {
       }
     },
     methods: {
-      onLoad(vue) {
+      onLoad(map) {
+          this.map = map;
+        //   console.log(this.features);
+        //   console.log(map);
+          if(this.features){
+              map.data.addGeoJson(this.features);
+              map.data.setStyle(function(feature) {
+                var color = 'red';
+    
+                if (feature.getProperty('isColorful')) {
+                    color = feature.getProperty('color');
+                }
+    
+                return {
+                    fillColor: color,
+                    strokeColor: color,
+                    strokeWeight: 2,
+                    icon: null
+                };
+            });
+          }
+        // 기타 이벤트
       },
       onWindowLoad(that) {
       },
@@ -64,10 +91,41 @@ export default {
       },
       onMarkerLoaded(vue) {
         this.marker = vue.marker;
+      },
+      send(){
+        //   Vue.rsPageSend()
+          
+        this.map.data.addGeoJson({
+            type: "Feature",
+            geometry: {
+                "type": "Point",
+                "coordinates": [126.9783882, 37.5666103]
+                ,mantle_properties:{
+                    icon:'https://navermaps.github.io/maps.js.ncp/docs/img/example/sally.png'
+                }
+            },
+            properties: {
+                name: "Dinagat Islands"
+                
+            }
+          },true);
+
+
+        //   var markerOptions = {
+        //     position: new naver.maps.LatLng(37.3849483, 127.1229117).destinationPoint(90, 15),
+        //     map: this.map,
+        //     icon: {
+        //         url: 'https://navermaps.github.io/maps.js.ncp/docs/img/example/sally.png',
+        //         size: new naver.maps.Size(50, 52),
+        //         origin: new naver.maps.Point(0, 0),
+        //         anchor: new naver.maps.Point(25, 26)
+        //     }
+        // };
+        // new naver.maps.Marker(markerOptions);
+
       }
     },
     mounted() {
-      setInterval(() => this.count++, 1000);
     },
     created() {
         if (process.browser) {

@@ -57,7 +57,7 @@ export default {
             this.player.playVideo();
         },
         changeVideoId(){
-            Vue.rsPageSend({exec:"items["+this.$vnode.key+"].videoId='"+this.formVideoId+"'"});
+            Vue.rsPageSend('template',{exec:"items["+this.$vnode.key+"].videoId='"+this.formVideoId+"'"});
             this.dialog=false;
         }
     },

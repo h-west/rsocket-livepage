@@ -7,7 +7,7 @@
 <script>
 export default {
     name: 'free',
-    props: ['items'],
+    props: ['items','msg'],
     computed: {
         cItems() {
             return this.items.map((item,i) => {
