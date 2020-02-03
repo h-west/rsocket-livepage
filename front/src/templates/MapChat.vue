@@ -125,12 +125,13 @@ export default {
         
         
         this.map.data.addListener('addfeature', (e)=> {
-          // console.log('1')
+          console.log('1')
           //   let m = e.feature.getOverlays()[0];
           //   m.addListener('icon_changed', ()=>{
           //     e.feature.getRaw().info.open(this.map,m)
           //   })
           setTimeout(()=>{e.feature.getRaw().info.open(this.map,e.feature.getOverlays()[0])},100)
+          //e.feature.getOverlays()[0].trigger('click');
         });
 
           this.map.data.addListener('click', (e)=> {
