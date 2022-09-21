@@ -17,7 +17,7 @@
     "vue-chartjs": "^3.5.0",
     "vue-naver-maps": "^0.11.10",
     "vue-router": "^3.0.3",
-    "vuetify": "^2.0.0",
+    "vuetify": "^2.6.10",
     "vuex": "^3.0.1",
     "youtube-player": "^5.5.2"
   },
